@@ -3,7 +3,10 @@ import weaviate
 from streamlit_examples.utils.cohere import cohere_api_key
 
 
-@st.cache_resource(show_spinner="Connecting to Weaviate...")
+@st.cache_resource(
+    show_spinner="Connecting to Weaviate...",
+    validate=lambda client: client.is_ready(),
+)
 def connect_weaviate():
     # Connect to the Weaviate demo database containing 10M wikipedia vectors
     # This uses a public READ-ONLY Weaviate API key
@@ -18,7 +21,6 @@ def connect_weaviate():
         },
     )
 
-    client.is_ready()
     return client
 
 
