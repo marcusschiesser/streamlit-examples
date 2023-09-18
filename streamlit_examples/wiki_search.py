@@ -7,6 +7,22 @@ def link(i, item):
     return f"**[{i+1}. {item['title']}]({item['url']})**"
 
 
+def aggregate(items):
+    # group items by same url
+    groups = {}
+    for item in items:
+        groups.setdefault(item["url"], []).append(item)
+    # join text of same url
+    results = []
+    for group in groups.values():
+        result = {}
+        result["url"] = group[0]["url"]  # get url from first item
+        result["title"] = group[0]["title"]  # get titl from first item
+        result["text"] = "\n\n".join([item["text"] for item in group])
+        results.append(result)
+    return results
+
+
 st.title("Search Wikipedia")
 
 user_query = st.chat_input(placeholder="Backpacking in Asia")
@@ -17,7 +33,9 @@ if not user_query:
 
 root = st.empty()
 with root.status("Querying vector store..."):
-    items = search_wikipedia(user_query, limit=3)
+    items = search_wikipedia(user_query, limit=10)
+# aggregate items with same url (as vector DB might return multiple items for same url)
+items = aggregate(items)[0:3]
 container = root.container()
 container.write(f"That's what I found about: _{user_query}_")
 
