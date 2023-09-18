@@ -40,9 +40,10 @@ def render_suggestions():
 
 def render_query():
     st.text_input(
-        "",
+        "Search",
         placeholder="Search, e.g. 'Backpacking in Asia'",
         key="user_query",
+        label_visibility="collapsed",
     )
 
 
