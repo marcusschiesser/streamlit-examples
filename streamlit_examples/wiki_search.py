@@ -23,15 +23,10 @@ def aggregate(items):
     return results
 
 
-if "user_query" not in st.session_state:
-    st.session_state.user_query = None
-
-
-def set_query(query):
-    st.session_state.user_query = query
-
-
 def render_suggestions():
+    def set_query(query):
+        st.session_state.suggestion = query
+
     suggestions = [
         "Travel destinations known for their beaches",
         "Time travel movies with a twist",
@@ -44,44 +39,59 @@ def render_suggestions():
 
 
 def render_query():
-    user_query = st.chat_input(placeholder="Backpacking in Asia")
-    if user_query:
-        st.session_state.user_query = user_query
+    st.text_input(
+        "",
+        placeholder="Search, e.g. 'Backpacking in Asia'",
+        key="user_query",
+    )
+
+
+def get_query():
+    if "suggestion" not in st.session_state:
+        st.session_state.suggestion = None
+    if "user_query" not in st.session_state:
+        st.session_state.user_query = ""
+    user_query = st.session_state.suggestion or st.session_state.user_query
+    st.session_state.suggestion = None
+    st.session_state.user_query = ""
+    return user_query
 
 
 st.title("Search Wikipedia")
 
-if not st.session_state.user_query:
+user_query = get_query()
+if not user_query:
     st.info(
         "Search Wikipedia and summarize the results. Type a query to start or pick one of these suggestions:"
     )
 render_suggestions()
 render_query()
 
-if not st.session_state.user_query:
+if not user_query:
     st.stop()
 
-root = st.empty()
-with root.status("Querying vector store..."):
-    items = search_wikipedia(st.session_state.user_query, limit=10)
-# aggregate items with same url (as vector DB might return multiple items for same url)
-items = aggregate(items)[0:3]
-container = root.container()
-container.write(f"That's what I found about: _{st.session_state.user_query}_")
+MAX_ITEMS = 3
 
+container = st.container()
+header = container.empty()
+header.write(f"Looking for results for: _{user_query}_")
 placeholders = []
-for i, item in enumerate(items):
+for i in range(MAX_ITEMS):
     placeholder = container.empty()
-    placeholder.info(f"{link(i,item)} {item['text']}")
+    placeholder.status("Searching...")
     placeholders.append(placeholder)
 
-status = container.status(
-    "Search results retrieved. I am summarizing the results for you. Meanwhile you can scroll up and have a look at the full text."
-)
+items = search_wikipedia(user_query, limit=10)
+# aggregate items with same url (as vector DB might return multiple items for same url)
+items = aggregate(items)[:MAX_ITEMS]
+
+header.write(f"That's what I found about: _{user_query}_. **Summarizing results...**")
+for i, item in enumerate(items):
+    placeholders[i].info(f"{link(i,item)} {item['text']}")
 
 for i, item in enumerate(items):
     with placeholders[i].status(f"_Summarizing_: {link(i,item)} {item['text']}"):
         summary = summarize(item["text"])
     placeholders[i].success(f"{link(i,item)} {summary}")
 
-status.update(label="Search finished. Try something else!", state="complete")
+header.write("Search finished. Try something else!")
