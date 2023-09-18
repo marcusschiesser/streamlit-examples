@@ -43,27 +43,31 @@ def render_suggestions():
             st.button(suggestions[i], on_click=set_query, args=[suggestions[i]])
 
 
+def render_query():
+    user_query = st.chat_input(placeholder="Backpacking in Asia")
+    if user_query:
+        st.session_state.user_query = user_query
+
+
 st.title("Search Wikipedia")
 
-render_suggestions()
-user_query = st.chat_input(placeholder="Backpacking in Asia")
-if user_query:
-    st.session_state.user_query = user_query
-
-user_query = st.session_state.user_query
-if not user_query:
+if not st.session_state.user_query:
     st.info(
-        "Search Wikipedia and summarize the results. Type a query to start or pick one of the suggestions."
+        "Search Wikipedia and summarize the results. Type a query to start or pick one of these suggestions:"
     )
+render_suggestions()
+render_query()
+
+if not st.session_state.user_query:
     st.stop()
 
 root = st.empty()
 with root.status("Querying vector store..."):
-    items = search_wikipedia(user_query, limit=10)
+    items = search_wikipedia(st.session_state.user_query, limit=10)
 # aggregate items with same url (as vector DB might return multiple items for same url)
 items = aggregate(items)[0:3]
 container = root.container()
-container.write(f"That's what I found about: _{user_query}_")
+container.write(f"That's what I found about: _{st.session_state.user_query}_")
 
 placeholders = []
 for i, item in enumerate(items):
