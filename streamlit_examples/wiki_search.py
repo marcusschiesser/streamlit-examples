@@ -23,12 +23,38 @@ def aggregate(items):
     return results
 
 
+if "user_query" not in st.session_state:
+    st.session_state.user_query = None
+
+
+def set_query(query):
+    st.session_state.user_query = query
+
+
+def render_suggestions():
+    suggestions = [
+        "Travel destinations known for their beaches",
+        "Time travel movies with a twist",
+        "Book authors explaining Physics",
+    ]
+    columns = st.columns(len(suggestions))
+    for i, column in enumerate(columns):
+        with column:
+            st.button(suggestions[i], on_click=set_query, args=[suggestions[i]])
+
+
 st.title("Search Wikipedia")
 
+render_suggestions()
 user_query = st.chat_input(placeholder="Backpacking in Asia")
+if user_query:
+    st.session_state.user_query = user_query
 
+user_query = st.session_state.user_query
 if not user_query:
-    st.info("Search Wikipedia and summarize the results. Type a query to start.")
+    st.info(
+        "Search Wikipedia and summarize the results. Type a query to start or pick one of the suggestions."
+    )
     st.stop()
 
 root = st.empty()
