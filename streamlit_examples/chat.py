@@ -9,14 +9,14 @@ from llama_index.llms import OpenAI
 from streamlit_examples.utils.llamaindex import build_index, handle_stream
 
 from streamlit_examples.utils.streamlit import (
-    get_key,
+    cache_files,
     render_message,
     upload_files,
 )
 
 st.title("Chat with Documents")
 
-openai_api_key = get_key()
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 # Define service-context
 llm = OpenAI(temperature=0.1, model="gpt-3.5-turbo", api_key=openai_api_key)
@@ -26,6 +26,7 @@ set_global_service_context(service_context)
 
 # Upload PDFs
 pdfs = upload_files(type="pdf", accept_multiple_files=True)
+pdfs = cache_files(pdfs, type="pdf")
 
 index = build_index(pdfs)
 query_engine = index.as_chat_engine(chat_mode="condense_question", streaming=True)

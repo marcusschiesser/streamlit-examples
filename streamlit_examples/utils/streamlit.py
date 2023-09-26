@@ -20,21 +20,26 @@ def get_key():
 
 
 def upload_files(type="pdf", **kwargs):
-    files = st.sidebar.file_uploader(
+    files = st.file_uploader(
         label=f"Upload {type.upper()} files", type=[type], **kwargs
     )
     if not files:
         st.info(f"Please add {type.upper()} documents")
         st.stop()
-    return cache_files(files, type=type)
+    return files
 
 
 def cache_files(files, type="pdf") -> list[str]:
     filepaths = []
     for file in files:
-        filepath = f"{CACHE_DIR}/{file.file_id}.{type}"
-        if not os.path.exists(filepath):
-            with open(filepath, "wb") as f:
-                f.write(file.getbuffer())
+        filepath = cache_file(file, type=type)
         filepaths.append(filepath)
     return filepaths
+
+
+def cache_file(file, type="pdf") -> str:
+    filepath = f"{CACHE_DIR}/{file.file_id}.{type}"
+    if not os.path.exists(filepath):
+        with open(filepath, "wb") as f:
+            f.write(file.getbuffer())
+    return filepath
