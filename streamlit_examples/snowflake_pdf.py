@@ -13,9 +13,10 @@ from streamlit_examples.utils.streamlit import (
     cache_file,
     upload_files,
 )
+from unstructured.partition.pdf import partition_pdf
 
 st.title("☃️ PDF2Snowflake")
-st.write("Summarizes PDFs and stores them with their summary in Snowflake.")
+st.write("Extracts information from PDFs and stores it in Snowflake.")
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
@@ -40,3 +41,11 @@ for pdf in pdfs:
         summary = query_engine.query("What is a summary of this document?")
     st.markdown(f"## Summary of **{pdf.name}**")
     st.markdown(summary)
+    st.markdown("---")
+    with st.spinner(f"Extracting tables from '{pdf.name}'..."):
+        elements = partition_pdf(filename=file, infer_table_structure=True)
+        tables = [el for el in elements if el.category == "Table"]
+    for i, table in enumerate(tables):
+        html = table.metadata.text_as_html
+        st.markdown(f"## Table {i+1} of **{pdf.name}**")
+        st.markdown(html, unsafe_allow_html=True)
