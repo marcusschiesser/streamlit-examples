@@ -16,6 +16,7 @@ cohere = "^4.26"
 weaviate-client = "^3.24.1"
 unstructured = { extras = ["pdf"], version = "^0.10.19" }
 importlib-resources = "^6.1.0"
+torch = "^2.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
