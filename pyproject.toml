@@ -8,7 +8,7 @@ packages = [{ include = "streamlit_examples" }]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.9.7 || >3.9.7,<3.11"
-llama-index = "^0.8.24.post1"
+llama-index = "^0.8.41"
 llama-cpp-python = "^0.1.84"
 streamlit = "^1.27.2"
 pypdf = "^3.16.0"
@@ -16,6 +16,7 @@ cohere = "^4.26"
 weaviate-client = "^3.24.1"
 importlib-resources = "^6.1.0"
 unstructured-client = "^0.8.1"
+setuptools = "^68.2.2"
 
 
 [tool.poetry.group.dev.dependencies]
