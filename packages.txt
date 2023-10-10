@@ -1,3 +1,0 @@
-poppler-utils 
-tesseract-ocr
-libgl1
