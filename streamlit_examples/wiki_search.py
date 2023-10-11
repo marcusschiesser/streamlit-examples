@@ -2,6 +2,12 @@ import streamlit as st
 from streamlit_examples.utils.cohere import summarize
 from streamlit_examples.utils.weaviate import search_wikipedia
 
+from streamlit_examples.utils.theme import (
+    initPage,
+)
+
+initPage("Search Wikipedia")
+
 
 def link(i, item):
     return f"**[{i+1}. {item['title']}]({item['url']})**"
@@ -57,8 +63,6 @@ def get_query():
     st.session_state.user_query = ""
     return user_query
 
-
-st.title("Search Wikipedia")
 
 user_query = get_query()
 if not user_query:

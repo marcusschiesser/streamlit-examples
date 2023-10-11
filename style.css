@@ -1,0 +1,8 @@
+/* Custom streamit theme by adding CSS to this file. */
+body {
+  line-height: 1rem;
+}
+
+.block-container {
+  padding-top: 1.1rem;
+}

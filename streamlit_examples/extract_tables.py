@@ -2,10 +2,14 @@ import streamlit as st
 from unstructured_client import UnstructuredClient
 from unstructured_client.models import shared
 from unstructured_client.models.errors import SDKError
+from streamlit_examples.utils.theme import initPage
 
-from streamlit_examples.utils.streamlit import cache_file, upload_files
+from streamlit_examples.utils.streamlit import (
+    cache_file,
+    upload_files,
+)
 
-st.title("PDF2Tables")
+initPage("PDF2Tables")
 st.write("Extracts tables from PDFs using [unstructured](https://unstructured.io/).")
 
 

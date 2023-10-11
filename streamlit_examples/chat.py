@@ -6,6 +6,7 @@ from llama_index import (
     set_global_service_context,
 )
 from llama_index.llms import OpenAI
+from streamlit_examples.utils.theme import initPage
 from streamlit_examples.utils.llamaindex import build_index, handle_stream
 
 from streamlit_examples.utils.streamlit import (
@@ -14,7 +15,7 @@ from streamlit_examples.utils.streamlit import (
     upload_files,
 )
 
-st.title("Chat with Documents")
+initPage("Chat with Documents")
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
