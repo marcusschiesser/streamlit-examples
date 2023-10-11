@@ -3,11 +3,15 @@ from unstructured_client import UnstructuredClient
 from unstructured_client.models import shared
 from unstructured_client.models.errors import SDKError
 
-from streamlit_examples.utils.streamlit import cache_file, upload_files
+from streamlit_examples.utils.streamlit import (
+    cache_file, 
+    upload_files,
+    initPage,
+)
 
+initPage("PDF2Tables")
 st.title("PDF2Tables")
 st.write("Extracts tables from PDFs using [unstructured](https://unstructured.io/).")
-
 
 @st.cache_resource()
 def get_client():

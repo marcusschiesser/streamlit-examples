@@ -1,4 +1,5 @@
 import os
+from PIL import Image
 import streamlit as st
 
 CACHE_DIR = "./uploads"
@@ -43,3 +44,24 @@ def cache_file(file, type="pdf") -> str:
         with open(filepath, "wb") as f:
             f.write(file.getbuffer())
     return filepath
+
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+
+def remote_css(url):
+    st.markdown(f'<link href="{url}" rel="stylesheet">', unsafe_allow_html=True)
+
+
+def icon(icon_name):
+    st.markdown(f'<i class="material-icons">{icon_name}</i>', unsafe_allow_html=True)
+
+
+def initPage(page_title):
+    dir_root = os.path.dirname(os.path.abspath(__file__))
+    logo = Image.open(dir_root+'/../assets/logo.png')
+    favicon = Image.open(dir_root+'/../assets/favicon.png')
+    st.set_page_config(page_title=page_title, page_icon=favicon)
+    local_css("style.css")
+    st.sidebar.image(logo)
