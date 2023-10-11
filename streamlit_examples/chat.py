@@ -12,8 +12,10 @@ from streamlit_examples.utils.streamlit import (
     cache_files,
     render_message,
     upload_files,
+    initPage,
 )
 
+initPage("Chat with Documents")
 st.title("Chat with Documents")
 
 openai_api_key = st.secrets["OPENAI_API_KEY"]

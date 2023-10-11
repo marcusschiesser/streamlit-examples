@@ -11,8 +11,10 @@ from llama_index.llms import OpenAI
 from streamlit_examples.utils.streamlit import (
     cache_file,
     upload_files,
+    initPage
 )
 
+initPage("QueryPDFs")
 st.title("QueryPDFs")
 st.write(
     "Ask questions or create summaries or explanations on PDFs using [LlamaIndex](https://www.llamaindex.ai/)"
