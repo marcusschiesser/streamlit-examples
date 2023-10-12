@@ -72,6 +72,11 @@ def initPage(page_title):
                 align-items: center;
                 justify-content: space-between;
             }
+            .header-divider {
+                height: 1px;
+                margin-top: 5px;
+                background-color: rgba(49, 51, 63, 0.2);
+            }
         </style>
 
         <div class="header-brand">
@@ -94,7 +99,7 @@ def initPage(page_title):
                 </svg>
             </a>
         </div>
+        <div class="header-divider" />
         """,
         height=50,
     )
-    st.divider()
