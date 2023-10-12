@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{ include = "streamlit_examples" }]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.9.7 || >3.9.7,<3.11"
+python = ">=3.9,<3.9.7 || >3.9.7,<3.12"
 llama-index = "^0.8.41"
 llama-cpp-python = "^0.1.84"
 streamlit = "^1.27.2"
