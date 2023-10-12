@@ -75,10 +75,10 @@ def initPage(page_title):
         </style>
 
         <div class="header-brand">
-            <a href="https://schiesser-it.com/">
+            <a href="https://schiesser-it.com/" target="_blank">
                 <img src="https://schiesser-it.com/images/logo/schiesser.svg" width="200" />
             </a>
-            <a href="https://www.linkedin.com/in/marcusschiesser">
+            <a href="https://www.linkedin.com/in/marcusschiesser" target="_blank">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
