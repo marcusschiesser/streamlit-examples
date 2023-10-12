@@ -7,15 +7,11 @@ from llama_index import (
     VectorStoreIndex,
 )
 from llama_index.llms import OpenAI
+from streamlit_examples.utils.theme import initPage
 
-from streamlit_examples.utils.streamlit import (
-    cache_file,
-    upload_files,
-    initPage
-)
+from streamlit_examples.utils.streamlit import cache_file, upload_files
 
 initPage("QueryPDFs")
-st.title("QueryPDFs")
 st.write(
     "Ask questions or create summaries or explanations on PDFs using [LlamaIndex](https://www.llamaindex.ai/)"
 )
