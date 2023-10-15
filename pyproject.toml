@@ -17,6 +17,7 @@ weaviate-client = "^3.24.1"
 importlib-resources = "^6.1.0"
 unstructured-client = "^0.8.1"
 setuptools = "^68.2.2"
+geopy = "^2.4.0"
 
 
 [tool.poetry.group.dev.dependencies]
